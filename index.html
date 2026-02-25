@@ -197,6 +197,31 @@
     </footer>
   </main>
 
+  <button id="toTopBtn" aria-label="Back to top">
+  ↑
+</button>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  const toTopBtn = document.getElementById("toTopBtn");
+
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 300) {
+      toTopBtn.classList.add("show");
+    } else {
+      toTopBtn.classList.remove("show");
+    }
+  });
+
+  toTopBtn.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  });
+</script>
+
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
