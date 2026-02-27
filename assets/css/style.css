@@ -934,3 +934,32 @@ section{
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.play-float{
+  position: fixed;
+  left: 24px;
+  bottom: 220px; /* moved higher to avoid overlap */
+  z-index: 46;
+
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  padding:12px 18px;
+  border-radius:999px;
+
+  background: linear-gradient(135deg, #4a90e2, #7b61ff);
+  color:white;
+  font-weight:600;
+  letter-spacing:0.3px;
+
+  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+  text-decoration:none;
+
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.play-float:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+}

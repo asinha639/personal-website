@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stats Playground</title>
+  <link rel="stylesheet" href="assets/css/playground.css" />
+</head>
+
+<body>
+  <header class="top">
+    <a href="index.html" class="home">Home</a>
+    <h1>Stats Playground</h1>
+    <p>Learn statistics by playing 🎲</p>
+  </header>
+
+  <div class="tabs" role="tablist" aria-label="Stats Playground Tabs">
+    <button class="tab active" data-tab="hist" role="tab" aria-selected="true">Histogram Maker</button>
+    <button class="tab" data-tab="coins" role="tab" aria-selected="false">Flip 100 Coins</button>
+    <button class="tab" data-tab="bell" role="tab" aria-selected="false">Move the Bell Curve</button>
+    <button class="tab" data-tab="paradox" role="tab" aria-selected="false">Simpson’s Paradox</button>
+  </div>
+
+  <div class="container">
+    <!-- Histogram -->
+    <section class="panel active" id="hist" role="tabpanel">
+      <h2>Build Your Own Histogram</h2>
+      <p>
+        Sample size (how many random numbers):
+        <strong><span id="histN">300</span></strong>
+      </p>
+
+      <input type="range" id="histRange" min="50" max="1000" value="300" />
+      <button id="histBtn" type="button">Generate</button>
+
+      <canvas id="histCanvas"></canvas>
+    </section>
+
+    <!-- Coins -->
+    <section class="panel" id="coins" role="tabpanel">
+      <h2>Flip 100 Coins</h2>
+      <button id="coinBtn" type="button">Flip!</button>
+      <p id="coinResult"></p>
+      <div id="coinGrid" aria-label="Coin flip results"></div>
+    </section>
+
+    <!-- Bell Curve -->
+    <section class="panel" id="bell" role="tabpanel">
+      <h2>Move the Bell Curve</h2>
+
+      <label>
+        Mean:
+        <input type="range" id="meanSlider" min="-5" max="5" step="0.5" value="0" />
+      </label>
+
+      <label style="margin-left:12px;">
+        Spread:
+        <input type="range" id="stdSlider" min="0.5" max="3" step="0.1" value="1" />
+      </label>
+
+      <canvas id="bellCanvas"></canvas>
+    </section>
+
+    <!-- Simpson -->
+    <section class="panel" id="paradox" role="tabpanel">
+      <h2>Simpson’s Paradox</h2>
+      <p>Two groups both improve… but together they look worse!</p>
+      <button id="paradoxBtn" type="button">Show Example</button>
+      <div id="paradoxText"></div>
+    </section>
+  </div>
+
+  <script>
+    // ---------- Tabs ----------
+    const tabs = Array.from(document.querySelectorAll(".tab"));
+    const panels = Array.from(document.querySelectorAll(".panel"));
+
+    function activateTab(tabBtn){
+      tabs.forEach(b => {
+        b.classList.remove("active");
+        b.setAttribute("aria-selected", "false");
+      });
+      panels.forEach(p => p.classList.remove("active"));
+
+      tabBtn.classList.add("active");
+      tabBtn.setAttribute("aria-selected", "true");
+
+      const panel = document.getElementById(tabBtn.dataset.tab);
+      panel.classList.add("active");
+
+      // redraw bell curve after it becomes visible
+      if(tabBtn.dataset.tab === "bell"){
+        setTimeout(drawBell, 60);
+      }
+    }
+
+    tabs.forEach(btn => btn.addEventListener("click", () => activateTab(btn)));
+
+    // ---------- Histogram ----------
+    const histRange = document.getElementById("histRange");
+    const histN = document.getElementById("histN");
+    const histBtn = document.getElementById("histBtn");
+
+    histRange.addEventListener("input", () => {
+      histN.textContent = histRange.value;
+    });
+
+    function generateHistogram(){
+      const n = parseInt(histRange.value, 10);
+      const canvas = document.getElementById("histCanvas");
+      const ctx = canvas.getContext("2d");
+
+      canvas.width = 600;
+      canvas.height = 350;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // bell-ish random numbers around 0 (rough range -2 to +2)
+      const data = Array.from({length: n}, () =>
+        (Math.random() + Math.random() + Math.random() + Math.random()) - 2
+      );
+
+      const bins = 12;
+      const minX = -2.2, maxX = 2.2;
+      const binWidth = (maxX - minX) / bins;
+
+      const counts = Array(bins).fill(0);
+      data.forEach(v => {
+        const idx = Math.floor((v - minX) / binWidth);
+        if(idx >= 0 && idx < bins) counts[idx]++;
+      });
+
+      const maxCount = Math.max(...counts);
+
+      // axes
+      ctx.strokeStyle = "#333";
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.moveTo(60, 300);
+      ctx.lineTo(560, 300);  // x-axis
+      ctx.moveTo(60, 300);
+      ctx.lineTo(60, 60);    // y-axis
+      ctx.stroke();
+
+      // labels
+      ctx.fillStyle = "#222";
+      ctx.font = "14px Inter";
+      ctx.fillText("Value (around -2 to +2)", 220, 332);
+
+      ctx.save();
+      ctx.translate(18, 220);
+      ctx.rotate(-Math.PI / 2);
+      ctx.fillText("Frequency (Count)", 0, 0);
+      ctx.restore();
+
+      // ticks on x-axis
+      ctx.fillStyle = "#555";
+      ctx.font = "12px Inter";
+      for(let t = -2; t <= 2; t++){
+        const x = 60 + ((t - minX) / (maxX - minX)) * 500;
+        ctx.beginPath();
+        ctx.moveTo(x, 300);
+        ctx.lineTo(x, 305);
+        ctx.strokeStyle = "rgba(0,0,0,0.25)";
+        ctx.stroke();
+        ctx.fillText(String(t), x - 4, 320);
+      }
+
+      // bars
+      const plotW = 500;
+      const plotH = 230;
+
+      counts.forEach((c, i) => {
+        const h = (c / maxCount) * plotH;
+        const x = 60 + (i * (plotW / bins)) + 8;
+        const w = (plotW / bins) - 16;
+        const y = 300 - h;
+
+        ctx.fillStyle = "#4a90e2";
+        ctx.fillRect(x, y, w, h);
+      });
+
+      // sample size label
+      ctx.fillStyle = "#4a90e2";
+      ctx.font = "13px Inter";
+      ctx.fillText("Sample Size: " + n, 430, 40);
+    }
+
+    histBtn.addEventListener("click", generateHistogram);
+    generateHistogram();
+
+    // ---------- Coins ----------
+    const coinBtn = document.getElementById("coinBtn");
+    const coinGrid = document.getElementById("coinGrid");
+    const coinResult = document.getElementById("coinResult");
+
+    function flipCoins(){
+      coinGrid.innerHTML = "";
+      let heads = 0;
+
+      for(let i = 0; i < 100; i++){
+        const isHead = Math.random() < 0.5;
+        if(isHead) heads++;
+
+        const span = document.createElement("span");
+        span.textContent = isHead ? "H" : "T";
+        span.className = "coin " + (isHead ? "coin--h" : "coin--t");
+        coinGrid.appendChild(span);
+      }
+
+      coinResult.textContent = "Heads: " + heads + " | Tails: " + (100 - heads);
+    }
+
+    coinBtn.addEventListener("click", flipCoins);
+
+    // ---------- Bell Curve ----------
+    const meanSlider = document.getElementById("meanSlider");
+    const stdSlider  = document.getElementById("stdSlider");
+
+    function drawBell(){
+      const mean = parseFloat(meanSlider.value);
+      const std  = parseFloat(stdSlider.value);
+
+      const canvas = document.getElementById("bellCanvas");
+      const ctx = canvas.getContext("2d");
+
+      canvas.width = 600;
+      canvas.height = 350;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // axes
+      ctx.strokeStyle = "#333";
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.moveTo(60, 300);
+      ctx.lineTo(560, 300);
+      ctx.moveTo(60, 300);
+      ctx.lineTo(60, 60);
+      ctx.stroke();
+
+      // labels
+      ctx.fillStyle = "#222";
+      ctx.font = "14px Inter";
+      ctx.fillText("Value", 295, 332);
+
+      ctx.save();
+      ctx.translate(18, 230);
+      ctx.rotate(-Math.PI / 2);
+      ctx.fillText("Probability Density", 0, 0);
+      ctx.restore();
+
+      // x ticks
+      ctx.fillStyle = "#555";
+      ctx.font = "12px Inter";
+      for(let t = -5; t <= 5; t += 2.5){
+        const x = 60 + ((t + 5) / 10) * 500;
+        ctx.beginPath();
+        ctx.moveTo(x, 300);
+        ctx.lineTo(x, 305);
+        ctx.strokeStyle = "rgba(0,0,0,0.25)";
+        ctx.stroke();
+        ctx.fillText(String(t), x - 8, 320);
+      }
+
+      // curve
+      ctx.beginPath();
+      for(let x = -5; x <= 5; x += 0.05){
+        const y = (1 / (std * Math.sqrt(2 * Math.PI))) *
+                  Math.exp(-0.5 * Math.pow((x - mean) / std, 2));
+
+        const px = 60 + ((x + 5) / 10) * 500;
+        const py = 300 - (y * 260); // scale
+        if(x === -5) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+
+      ctx.strokeStyle = "#e26a6a";
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      // readout
+      ctx.fillStyle = "#e26a6a";
+      ctx.font = "13px Inter";
+      ctx.fillText("Mean: " + mean, 430, 40);
+      ctx.fillText("Spread: " + std, 430, 60);
+    }
+
+    meanSlider.addEventListener("input", drawBell);
+    stdSlider.addEventListener("input", drawBell);
+
+    // draw once (works if bell is hidden; we redraw on tab open too)
+    drawBell();
+
+    // ---------- Simpson ----------
+    const paradoxBtn = document.getElementById("paradoxBtn");
+    const paradoxText = document.getElementById("paradoxText");
+
+    function showParadox(){
+      paradoxText.innerHTML =
+        "<p><strong>Group A</strong>: 90% success</p>" +
+        "<p><strong>Group B</strong>: 80% success</p>" +
+        "<p style='margin-top:10px;'><strong>Combined</strong>: 70% success 😲</p>" +
+        "<p style='margin-top:10px;'>Context matters!</p>";
+    }
+
+    paradoxBtn.addEventListener("click", showParadox);
+  </script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+body{
+  margin:0;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #f5f7ff, #eef2ff);
+  color:#222;
+}
+
+.top{
+  text-align:center;
+  padding:40px 20px 10px;
+}
+
+.top h1{
+  font-family: 'Baloo 2', cursive;
+  font-size: 2.5rem;
+  margin-bottom:10px;
+}
+
+.top p{
+  color:#555;
+}
+
+.home{
+  position:absolute;
+  left:20px;
+  top:20px;
+  text-decoration:none;
+  font-weight:600;
+  color:#4a90e2;
+}
+
+.tabs{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  padding:20px;
+  flex-wrap:wrap;
+}
+
+.tab{
+  padding:10px 18px;
+  border-radius:999px;
+  border:2px solid #d9d9ff;
+  background:white;
+  cursor:pointer;
+  font-weight:600;
+  transition: all 200ms ease;
+  color:#555;
+}
+
+.tab:hover{
+  background:#eef2ff;
+}
+
+.tab.active{
+  background: linear-gradient(135deg, #4a90e2, #7b61ff);
+  color:white;
+  border-color:transparent;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.container{
+  max-width:900px;
+  margin:30px auto;
+  padding:30px;
+  background:white;
+  border-radius:20px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+}
+
+.panel{
+  display:none;
+}
+
+.panel.active{
+  display:block;
+}
+
+button{
+  margin-top:12px;
+  padding:10px 18px;
+  border-radius:10px;
+  border:none;
+  background:#4a90e2;
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+  transition: transform 150ms ease;
+}
+
+button:hover{
+  transform: translateY(-2px);
+}
+
+canvas{
+  margin-top:20px;
+  border-radius:12px;
+  background:#fafafa;
+  border:1px solid #eee;
+}
+
+#coinGrid{
+  margin-top: 14px;
+  display:flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-width: 100%;
+}
+
+.coin{
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display:grid;
+  place-items:center;
+  font-weight:800;
+  font-size: 0.95rem;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+.coin--h{
+  background: rgba(74,144,226,0.15);
+  color: #2c6ecb;
+}
+
+.coin--t{
+  background: rgba(123,97,255,0.14);
+  color: #5a3fff;
+}
