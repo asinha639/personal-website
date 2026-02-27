@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#070A0F" />
+
+  <title>Did You Know? | Arnoneel Sinha</title>
+  <link rel="icon" href="assets/img/favicon.png" />
+  <link rel="stylesheet" href="assets/css/didyouknow.css" />
+</head>
+
+<body>
+  <div class="wrap">
+    <header class="top">
+      <a class="back" href="index.html">Home</a>
+      <div class="title">Did you know?</div>
+      <div class="sub">A daily rotating note from my life, work, and ambition.</div>
+    </header>
+
+    <main class="card">
+      <div class="badge">Today’s note</div>
+      <h1 id="factTitle">Loading…</h1>
+      <p id="factBody"></p>
+      <!-- <div class="foot">Updates automatically at midnight.</div> -->
+    </main>
+  </div>
+
+  <script>
+const FACTS = [
+  { title: "The word 'statistics' comes from politics.", body: "It originates from the Latin word status, meaning state. Early statistics was literally about governing." },
+
+  { title: "Florence Nightingale was a statistician.", body: "She used data visualization to convince the British government to reform military hospitals." },
+
+  { title: "The average person has more than the average number of friends.", body: "It’s called the friendship paradox. Your friends are likely more connected than you are." },
+
+  { title: "Abraham Wald saved planes by ignoring bullet holes.", body: "He realized you should reinforce the places that weren’t hit. Survivorship bias in action." },
+
+  { title: "A single p-value does not measure truth.", body: "It only measures how surprising your data would be if a specific assumption were true." },
+
+  { title: "Randomness looks less random than you think.", body: "Humans expect patterns even in truly random sequences. That is why coin flips feel suspicious." },
+
+  { title: "The normal distribution was once controversial.", body: "Not everyone believed errors should form a bell curve. It took decades to become standard." },
+
+  { title: "Most people misunderstand averages.", body: "The mean, median, and mode answer very different questions." },
+
+  { title: "Simpson’s paradox can reverse conclusions.", body: "A trend that appears in separate groups can disappear or reverse when groups are combined." },
+
+  { title: "Regression to the mean explains many miracles.", body: "Extremely good or bad performances tend to move closer to average next time." },
+
+  { title: "The birthday paradox surprises most people.", body: "In a group of just 23 people, there is over a 50 percent chance two share a birthday." },
+
+  { title: "Correlation has fooled smart people for centuries.", body: "Ice cream sales and shark attacks both rise in summer. Temperature is the hidden variable." },
+
+  { title: "Data visualization can change policy.", body: "Clear charts have historically influenced governments more than long reports." },
+
+  { title: "Small samples lie more loudly.", body: "The smaller the sample, the more dramatic the fluctuations." },
+
+  { title: "Bayesian statistics updates beliefs.", body: "Instead of fixed conclusions, it adjusts probabilities as new evidence arrives." },
+
+  { title: "Most published findings are exaggerated.", body: "Effect sizes often shrink when studies are replicated." },
+
+  { title: "Machine learning is statistics with better marketing.", body: "Under the hood, many ML methods are classical statistical ideas." },
+
+  { title: "The law of large numbers is patient.", body: "Random fluctuations shrink only when the sample size grows sufficiently." },
+
+  { title: "Outliers can be stories.", body: "Sometimes they are errors. Sometimes they are the most important observations." },
+
+  { title: "Confidence intervals are often misunderstood.", body: "They do not mean there is a 95 percent chance the parameter lies in the interval." },
+
+  { title: "The placebo effect is measurable.", body: "Belief alone can produce statistically significant changes." },
+
+  { title: "Big data does not mean good data.", body: "Bias scales too." },
+
+  { title: "Graphs can lie without changing numbers.", body: "Axes, scaling, and truncation can distort perception dramatically." },
+
+  { title: "The first census was about taxes.", body: "Counting people has long been tied to governance and resources." },
+
+  { title: "Randomized trials were once radical.", body: "The idea of random assignment in medicine faced resistance early on." },
+
+  { title: "Most models are wrong.", body: "Some are useful. That is the actual quote." },
+
+  { title: "Standard deviation measures spread, not uncertainty.", body: "It describes variation within data, not the precision of your estimate." },
+
+  { title: "AI still relies on probability.", body: "Behind the scenes, it is mostly structured uncertainty." },
+
+  { title: "Humans are terrible at estimating risk.", body: "We fear rare dramatic events and ignore common silent ones." },
+
+  { title: "Data cleaning takes most of the time.", body: "The glamorous part is modeling. The real work is preparation." },
+
+  { title: "A single number rarely tells the whole story.", body: "Context is the hidden variable in almost everything." }
+];
+
+    function localDayKey(d = new Date()){
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
+      return `${y}-${m}-${day}`;
+    }
+
+    // Deterministic daily pick (changes at midnight automatically)
+    function pickDailyFact(){
+      const today = new Date();
+      const index = (today.getFullYear() * 10000 + (today.getMonth()+1) * 100 + today.getDate()) % FACTS.length;
+      return FACTS[index];
+    }
+
+    function render(){
+      const fact = pickDailyFact();
+      document.getElementById("factTitle").textContent = fact.title;
+      document.getElementById("factBody").textContent = fact.body;
+    }
+
+    render();
+
+    // Optional: if the tab stays open across midnight, update shortly after midnight
+    function msUntilNextMidnight(){
+      const now = new Date();
+      const next = new Date(now);
+      next.setHours(24,0,2,0); // 2 seconds after midnight
+      return next - now;
+    }
+
+    setTimeout(function tick(){
+      render();
+      setTimeout(tick, msUntilNextMidnight());
+    }, msUntilNextMidnight());
+  </script>
+</body>
+</html>

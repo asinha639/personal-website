@@ -528,6 +528,9 @@ body > *{ position: relative; z-index: 1; }
   opacity: 1;
   transform: translateY(0);
 }
+section{
+  scroll-margin-top: 90px;
+}
 
 /* =========================
    Back To Top Button
@@ -564,6 +567,8 @@ body > *{ position: relative; z-index: 1; }
   visibility: visible;
   transform: translateY(0);
 }
+
+
 
 /* =========================
    Floating Weather Widget (Fixed + Smooth Pill)
@@ -873,4 +878,59 @@ body > *{ position: relative; z-index: 1; }
     width: auto;
     max-width: none;
   }
+}
+
+.dyk-float{
+  position: fixed;
+  left: 24px;
+  bottom: 96px; /* above back-to-top */
+  z-index: 45;
+
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 12px;
+
+  width: 280px;
+  max-width: calc(100vw - 48px);
+  padding: 12px 14px;
+
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: linear-gradient(135deg, rgba(240,180,41,0.16), rgba(70,220,255,0.08));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  box-shadow: 0 18px 55px rgba(0,0,0,0.55), 0 0 22px rgba(240,180,41,0.12);
+  text-decoration: none;
+
+  transition: transform 220ms var(--ease), box-shadow 220ms var(--ease);
+}
+
+.dyk-float:hover{ transform: translateY(-1px); }
+
+.dyk-float__icon{
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.04);
+}
+
+.dyk-float__title{
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: rgba(255,255,255,0.92);
+}
+
+.dyk-float__sub{
+  color: rgba(255,255,255,0.70);
+  font-size: 0.92rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
