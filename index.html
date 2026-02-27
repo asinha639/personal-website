@@ -31,7 +31,7 @@
       <nav class="topbar__actions" aria-label="Primary">
         <a class="btn btn--email" href="mailto:asinha639@gmail.com">Email</a>
         <a class="btn btn--linkedin" href="https://www.linkedin.com/in/arnoneelsinha" target="_blank" rel="noreferrer">LinkedIn</a>
-        <a class="btn btn--primary" href="assets/files/CV_ArnoneelSinha.pdf" target="_blank" rel="noreferrer">Download CV</a>
+        <a class="btn btn--primary" href="assets/files/CV_ArnoneelSinha.pdf" target="_blank" rel="noreferrer">CV</a>
       </nav>
     </div>
   </header>
@@ -175,9 +175,19 @@
 
       <h3>Selected Publications</h3>
       <ul class="bullets">
-        <li><strong>cellivista</strong> (with R.A. McIndoe) — interactive Seurat-based Shiny app (under preparation).</li>
-        <li>Rivera-Caraballo et al. (incl. Sinha) — <em>Cancer Research</em> (2025).</li>
-        <li>Sinha &amp; Chen — multiple change-point detection (under review / under preparation).</li>
+        <li><strong>Arnoneel Sinha</strong>, Richard A. McIndoe. <em>cellivista: An Interactive Seurat-Based R Shiny App for Single-Cell RNA-seq Analysis</em>. (Research article, under preparation).</li>
+        <li>Kimberly A. Rivera-Caraballo, Tae Jin Lee, <strong>Arnoneel Sinha</strong>, Marco Orecchioni, Rafal Pacholczyk, Karina Vázquez-
+Arreguín, Shilpa Sharma, Kimya Jones, Kailash Vemuri, Upasana Sahu, Sara A. Murphy, Bangxing Hong, Ravindra
+Kolhe, Ashok Sharma, Balveen Kaur; <em>Oncolytic HSV-1-Mediated JAG1 Blockade Induces Glioma Senescence-
+Associated Secretory Phenotype to Increase Macrophage Activation and Cetuximab-Mediated Senolysis</em>. Cancer
+Res 2025; https://doi.org/10.1158/0008-5472.CAN-25-1402</li>
+        <li><strong>Sinha A</strong>, Chen J. <em>On the Detection of Multiple Change Points in a Sequence of Bivariate Normal Random Vectors
+with Application to COVID-19 Data</em>. (Research article, under review)</li>
+        <li><strong>Sinha A</strong>, Chen J. <em>On the Detection of Multiple Change Points in a Sequence of Bivariate Negative Binomial Random Vectors
+with Application to COVID-19 Data</em>. (Research article, under review)</li>
+<li> James JN, Frazier KB, Looney SW, <strong>Sinha A</strong>, Faigen AB. <em>Does a Difference Exists in Comprehensive Basic Science
+Examination Scores of 4-Year versus 6-Year Oral-Maxillofacial Surgery Residents?</em> J Oral Maxillofac Surg. 2020
+Sep;78(9):1459.e1-1459.e6. doi: 10.1016/j.joms.2020.04.007. Epub 2020 Apr 18. PMID: 32413336.</li>
       </ul>
 
       <h3>Selected Presentations</h3>
@@ -241,6 +251,15 @@
   <!-- Back to top -->
   <button id="toTopBtn" aria-label="Back to top">↑</button>
 
+    <!-- Floating Story Widget (Left) -->
+  <a class="story-float" id="storyWidget" href="story.html" aria-label="Read my background story">
+    <div class="story-float__icon" aria-hidden="true">✦</div>
+    <div class="story-float__text">
+      <div class="story-float__title">My Story</div>
+      <div class="story-float__sub">From Red Soil to Southern Pines</div>
+    </div>
+  </a>
+
   <!-- Floating Weather Widget -->
   <aside class="wx-float" id="weatherWidget" aria-live="polite" tabindex="0">
     <div class="wx-float__left">
@@ -261,7 +280,7 @@
     </div>
   </aside>
 
-  <script>
+    <script>
     // Footer year
     document.getElementById("year").textContent = new Date().getFullYear();
 
@@ -363,6 +382,20 @@
 
     window.addEventListener("scroll", updateWeatherDock, { passive: true });
     updateWeatherDock();
+
+        // Story widget collapse on scroll
+    const storyWidget = document.getElementById("storyWidget");
+
+    function updateStoryDock() {
+      const collapseAfter = 120;
+      if (!storyWidget) return;
+
+      if (window.scrollY <= 10) storyWidget.classList.remove("story--collapsed");
+      else if (window.scrollY > collapseAfter) storyWidget.classList.add("story--collapsed");
+    }
+
+    window.addEventListener("scroll", updateStoryDock, { passive: true });
+    updateStoryDock();
   </script>
 </body>
 </html>
