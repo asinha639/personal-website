@@ -267,27 +267,40 @@ main > .grid.two > .section{ margin-top: 0; }
 }
 
 .item{
-  padding: 18px 0 0;
-  margin-top: 18px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);   /* phones: label above text */
+  gap: 4px;
+  margin-top: 22px;
+  padding-top: 22px;
   border-top: 1px solid var(--rule);
 }
 
 /* first entry sits right under the section label, no extra rule */
 .section h2 + .item{ margin-top: 0; padding-top: 0; border-top: 0; }
 
-.item__top{
-  display:flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-}
-.item__top h3{ margin: 0; }
-
-.tag{
+/* Left column: dates (Experience) or level (Teaching) */
+.section .item__label{
+  margin: 0;
   font-family: var(--font-label);
-  font-size: 0.8rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
   color: var(--ink-soft);
-  white-space: nowrap;
+}
+
+.item__body{ min-width: 0; }
+.item__body h3{ margin: 0; }
+.item__body .bullets{ margin-top: 8px; }
+.item__body .bullets li:first-child{ margin-top: 0; }
+.item__body > .bullets:first-child{ margin-top: 0; }   /* Teaching: list starts level with its label */
+
+/* Wide screens: label column on the left, text on the right */
+@media (min-width: 700px){
+  .item{
+    grid-template-columns: 10.5rem minmax(0, 1fr);
+    gap: 0 28px;
+  }
+  .section .item__label{ padding-top: 0.3em; }   /* lines up with the first text line */
 }
 
 .bullets{
@@ -309,6 +322,34 @@ main > .grid.two > .section{ margin-top: 0; }
   font-size: 0.9rem;
   text-align:center;
 }
+
+/* ---------- Publications and presentations: bibliography style ----------
+   Hanging indent: the first line starts at the left edge,
+   continuation lines are indented. */
+.biblio{
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+}
+
+.biblio li{
+  margin: 0 0 18px;
+  padding-left: 1.5rem;
+  text-indent: -1.5rem;
+  line-height: 1.6;
+  overflow-wrap: break-word;       /* long DOI links wrap instead of overflowing */
+}
+
+/* "(Research article, under review / preparation)" looks the same everywhere */
+.status{
+  font-family: var(--font-label);
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  color: var(--ink-soft);
+}
+
+.section h3 + .biblio{ margin-top: 12px; }
+.biblio + h3{ margin-top: 32px; }
 
 /* ---------- Currently Working On + Highlights ---------- */
 .focus-text{
@@ -636,7 +677,6 @@ section{ scroll-margin-top: 90px; }
 /* ---------- Responsive ---------- */
 @media (max-width: 860px){
   .grid.two{ grid-template-columns: 1fr; }
-  .item__top{ flex-direction: column; align-items: flex-start; gap: 2px; }
 
   .wx-float{
     top: auto;
