@@ -40,7 +40,7 @@
   </header>
 
   <main class="container">
-    <section class="hero card">
+    <section class="hero">
       <div class="hero__left">
         <div class="kicker">Post-Doctoral Fellow • CBGM • Augusta University</div>
 
@@ -68,7 +68,7 @@
 
     <!-- Focus + Highlights -->
     <section class="grid two">
-      <div class="card section">
+      <div class="section">
         <h2>Currently Working On</h2>
         <p class="focus-text">
           Building statistical workflows for <strong>multi-omics integration</strong> and
@@ -84,7 +84,7 @@
         </div>
       </div>
 
-      <div class="card section">
+      <div class="section">
         <h2>Highlights</h2>
         <div class="stats" role="list">
           <div class="stat" role="listitem">
@@ -107,7 +107,7 @@
       </div>
     </section>
 
-    <section id="about" class="card section">
+    <section id="about" class="section">
       <h2>About</h2>
       <p>
         I am a Post-Doctoral Fellow at the Center for Biotechnology &amp; Genomic Medicine (Augusta University),
@@ -116,7 +116,7 @@
       </p>
     </section>
 
-    <section id="skills" class="card section">
+    <section id="skills" class="section">
       <h2>Skills</h2>
       <div class="grid two">
         <div>
@@ -139,7 +139,7 @@
       </div>
     </section>
 
-        <section id="publications" class="card section">
+    <section id="publications" class="section">
       <h2>Publications &amp; Presentations</h2>
 
       <h3>Selected Publications</h3>
@@ -177,7 +177,7 @@ Jekyll Island, GA, 2022. (Poster presentation)</li>
       </ul>
     </section>
 
-    <section id="experience" class="card section">
+    <section id="experience" class="section">
       <h2>Experience</h2>
 
       <div class="item">
@@ -205,7 +205,7 @@ Jekyll Island, GA, 2022. (Poster presentation)</li>
 
 
 
-    <section id="teaching" class="card section">
+    <section id="teaching" class="section">
       <h2>Teaching</h2>
       <div class="grid two">
         <div>
@@ -225,7 +225,7 @@ Jekyll Island, GA, 2022. (Poster presentation)</li>
       </div>
     </section>
 
-    <section id="projects" class="card section">
+    <section id="projects" class="section">
       <h2>Current Projects</h2>
       <ul class="bullets">
         <li><strong>cellivista</strong> — User-friendly single-cell RNA-seq analysis tool in R/Shiny.</li>
@@ -233,7 +233,7 @@ Jekyll Island, GA, 2022. (Poster presentation)</li>
       </ul>
     </section>
 
-    <section id="awards" class="card section">
+    <section id="awards" class="section">
       <h2>Awards</h2>
       <ul class="bullets">
         <li><em>'People’s Choice Award'</em> — 3MT, Augusta University (2023)</li>
@@ -243,7 +243,7 @@ Jekyll Island, GA, 2022. (Poster presentation)</li>
       </ul>
     </section>
 
-        <section id="honors" class="card section">
+    <section id="honors" class="section">
       <h2>Honors</h2>
       <ul class="bullets">
         <li>Member of the Augusta University Post-Doctoral Association, Augusta University (Fall 2024 - Present)</li>
@@ -253,7 +253,7 @@ Jekyll Island, GA, 2022. (Poster presentation)</li>
       </ul>
     </section>
 
-    <section id="contact" class="card section">
+    <section id="contact" class="section">
       <h2>Contact</h2>
       <div class="contact">
         <a class="btn btn--primary" href="mailto:asinha639@gmail.com">asinha639@gmail.com</a>
@@ -328,7 +328,7 @@ Jekyll Island, GA, 2022. (Poster presentation)</li>
     });
 
     // Scroll reveal
-    const revealEls = document.querySelectorAll(".card, .item");
+    const revealEls = document.querySelectorAll(".section, .item");
     revealEls.forEach(el => el.classList.add("reveal"));
 
     const io = new IntersectionObserver((entries) => {

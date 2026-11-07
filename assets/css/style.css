@@ -24,6 +24,7 @@
 
   /* Shape and width */
   --radius: 4px;
+  --space: clamp(36px, 6vw, 60px);   /* gap between sections */
   --max: 760px;
 
   /* Fonts: serif for reading, small sans for labels */
@@ -132,46 +133,34 @@ a:hover{ color: var(--accent-dark); }
   .topbar{ position: sticky; top: 0; z-index: 10; }
 }
 
-/* ---------- Buttons (flat, outlined) ---------- */
+/* ---------- Links styled as buttons (Contact section) ----------
+   Plain accent-colored text links; 44px tall so they are easy to tap. */
 .btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding: 7px 14px;
-  border-radius: var(--radius);
-  border: 1px solid var(--rule-strong);
-  background: transparent;
-  color: var(--ink);
-  font-family: var(--font-label);
-  font-size: 0.85rem;
-  text-decoration: none;
-  transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease), background var(--dur) var(--ease);
-}
-
-.btn:hover{
-  border-color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   color: var(--accent);
-  background: var(--accent-wash);
+  font-size: 1rem;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
 }
+.btn:hover{ color: var(--accent-dark); }
 
-/* The main action (CV) gets the accent fill */
-.btn--primary{
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
-}
-.btn--primary:hover{
-  background: var(--accent-dark);
-  border-color: var(--accent-dark);
-  color: #fff;
-}
-
-/* ---------- "Cards" (flat for now; removed in step 3) ---------- */
-.card{
-  margin-top: 28px;
-  padding: 24px 0 0;
+/* ---------- Sections: no boxes, just a hairline rule and space ---------- */
+.section{
+  margin-top: var(--space);
+  padding-top: clamp(20px, 3vw, 28px);
   border-top: 1px solid var(--rule);
 }
+
+/* The two side-by-side blocks (Currently Working On + Highlights) */
+main > .grid.two{
+  margin-top: var(--space);
+  gap: var(--space) 40px;
+}
+main > .grid.two > .section{ margin-top: 0; }
 
 /* ---------- Hero (text first, small photo beside it on wide screens) ---------- */
 .hero{
@@ -255,10 +244,13 @@ a:hover{ color: var(--accent-dark); }
 
 /* ---------- Sections / content ---------- */
 .section h2{
-  font-family: var(--font-display);
-  font-weight: 600;
-  margin: 0 0 12px;
-  font-size: 1.35rem;
+  margin: 0 0 18px;
+  font-family: var(--font-label);
+  font-weight: 500;
+  font-size: 0.8125rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
 }
 
 .section h3{
@@ -271,14 +263,17 @@ a:hover{ color: var(--accent-dark); }
 .grid.two{
   display:grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
+  gap: 8px 40px;
 }
 
 .item{
-  padding: 14px 0 0;
-  margin-top: 12px;
+  padding: 18px 0 0;
+  margin-top: 18px;
   border-top: 1px solid var(--rule);
 }
+
+/* first entry sits right under the section label, no extra rule */
+.section h2 + .item{ margin-top: 0; padding-top: 0; border-top: 0; }
 
 .item__top{
   display:flex;
@@ -305,7 +300,7 @@ a:hover{ color: var(--accent-dark); }
 .contact{
   display:flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 0 28px;
 }
 
 .footer{
@@ -315,51 +310,53 @@ a:hover{ color: var(--accent-dark); }
   text-align:center;
 }
 
-/* ---------- Focus + stats ---------- */
+/* ---------- Currently Working On + Highlights ---------- */
 .focus-text{
   margin: 0;
   color: var(--ink);
 }
 
+/* Focus areas: a quiet line of small labels */
 .focus-tags{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 1.4em;
+  margin-top: 16px;
 }
 
 .focus-tag{
   font-family: var(--font-label);
-  font-size: 0.8rem;
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
   color: var(--ink-soft);
-  padding: 4px 10px;
-  border: 1px solid var(--rule);
-  border-radius: var(--radius);
 }
 
+/* Highlights: numbers over hairlines, two per row */
 .stats{
-  display:grid;
+  display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 10px;
+  gap: 0 24px;
+  margin-top: 0;
 }
 
 .stat{
-  padding-top: 10px;
+  padding: 12px 0 14px;
   border-top: 1px solid var(--rule);
 }
+.stat:nth-child(-n+2){ border-top: 0; padding-top: 0; }
 
 .stat__num{
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 1.25rem;
+  font-size: clamp(1.25rem, 1.1rem + 0.8vw, 1.6rem);
+  line-height: 1.2;
   color: var(--accent);
   margin-bottom: 2px;
 }
 
 .stat__label{
   color: var(--ink-soft);
-  font-size: 0.9rem;
+  font-size: 0.9375rem;
   line-height: 1.35;
 }
 
@@ -640,7 +637,6 @@ section{ scroll-margin-top: 90px; }
 @media (max-width: 860px){
   .grid.two{ grid-template-columns: 1fr; }
   .item__top{ flex-direction: column; align-items: flex-start; gap: 2px; }
-  .stats{ grid-template-columns: 1fr; }
 
   .wx-float{
     top: auto;
@@ -664,7 +660,7 @@ section{ scroll-margin-top: 90px; }
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce){
   html{ scroll-behavior: auto; }
-  .btn, .topnav a, .card, .item, .reveal, #toTopBtn, .wx-float, .story-float{
+  .btn, .topnav a, .section, .item, .reveal, #toTopBtn, .wx-float, .story-float{
     transition: none !important;
     animation: none !important;
   }
