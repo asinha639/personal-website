@@ -18,8 +18,10 @@
   />
 </head>
 
-<body>
-  <header class="topbar" id="top">
+<body id="top">
+  <!-- id="top" lives on <body>, not the header: the header is sticky on wide screens,
+       and a link to a sticky element doesn't scroll, so "#top" links seemed dead. -->
+  <header class="topbar">
     <div class="topbar__inner">
       <a class="brand" href="#top">Arnoneel Sinha, PhD</a>
 
@@ -27,12 +29,12 @@
       <nav class="topnav" aria-label="Primary">
         <a href="#about">About</a>
         <a href="#skills">Skills</a>
-        <a href="#experience">Experience</a>
         <a href="#publications">Publications</a>
+        <a href="#experience">Experience</a>
         <a href="#teaching">Teaching</a>
         <a href="#projects">Projects</a>
         <a href="#awards">Awards</a>
-        <a href="#honors">Honors</a>
+        <a href="#honors">Service</a>
         <a href="#contact">Contact</a>
         <a href="assets/files/CV_ArnoneelSinha.pdf" target="_blank" rel="noreferrer">CV</a>
       </nav>
@@ -59,8 +61,9 @@
       <div class="hero__right">
         <img class="avatar" src="assets/img/headshot.jpg" alt="Headshot of Arnoneel Sinha" />
         <div class="meta">
-          <div><span class="meta__label">Location</span>Augusta, GA</div>
-          <div><span class="meta__label">Email</span><a href="mailto:asinha639@gmail.com">asinha639@gmail.com</a></div>
+          <!-- Weather is appended by the script at the bottom; if it can't load, only "Augusta, GA" shows -->
+          <div><span class="meta__label">Location</span>Augusta, GA<span class="meta__wx" id="wxText" hidden></span></div>
+          <div><span class="meta__label">Email</span><a href="mailto:arsinha@augusta.edu">arsinha@augusta.edu</a><br><a href="mailto:asinha639@gmail.com">asinha639@gmail.com</a></div>
           <div><span class="meta__label">LinkedIn</span><a href="https://www.linkedin.com/in/arnoneelsinha" target="_blank" rel="noreferrer">arnoneelsinha</a></div>
         </div>
       </div>
@@ -92,8 +95,8 @@
             <div class="stat__label">Datasets analyzed</div>
           </div>
           <div class="stat" role="listitem">
-            <div class="stat__num">5+</div>
-            <div class="stat__label">Years teaching</div>
+            <div class="stat__num">4</div>
+            <div class="stat__label">Courses taught</div>
           </div>
           <div class="stat" role="listitem">
             <div class="stat__num">R • Python</div>
@@ -118,6 +121,16 @@
         with retrieval-augmented, approval-gated AI agents and full provenance tracking.
         I am seeking to lead an independent research program in statistically rigorous, trustworthy AI-assisted methods for biomedical data.
       </p>
+    </section>
+
+    <!-- My Story: featured card. The whole card is clickable via the "Read my story" link. -->
+    <section class="story-feature" aria-labelledby="story-feature-title">
+      <div class="story-card">
+        <p class="story-card__kicker">My Story</p>
+        <h2 class="story-card__title" id="story-feature-title">From Red Soil to Southern Pines</h2>
+        <p class="story-card__teaser">I was born in Kolkata, a city that never really whispers.</p>
+        <a class="story-card__link" href="story.html">Read my story <span class="story-card__arrow" aria-hidden="true">→</span></a>
+      </div>
     </section>
 
     <section id="skills" class="section">
@@ -163,17 +176,15 @@ Sep;78(9):1459.e1-1459.e6. doi: 10.1016/j.joms.2020.04.007. Epub 2020 Apr 18. PM
       <h3>In Preparation</h3>
       <ul class="biblio" role="list">
         <li><strong>Sinha A</strong>, Sinha K., McIndoe R. <em>cellivista: An Interactive Seurat-Based R Shiny App for Single-Cell RNA-seq Analysis</em>. <span class="status">(Submitted to The Journal of Open Source Software)</span></li>
+        <li><strong>Sinha A</strong>, Chen J. <em>Bayesian Multiple Change Point Detection for Bivariate Negative Binomial Sequences with Application to Integrative Analysis of Paired RNA and ChIP Sequencing Counts for ENCODE K562 Cell Line.</em> <span class="status">(Submitted to Journal of Computational Biology)</span></li>
         <li><strong>Sinha A</strong>, Chen J. <em>Bayesian Change-Point Detection in Bivariate Pseudo-Time Trajectories using Single-Cell RNA Sequencing Data.</em> <span class="status">(In preparation)</span></li>
         <li><strong>Sinha A</strong>, Sinha K, Lu S, Chatterjee K. <em>A Machine Learning Enhanced Exponentially Weighted Moving Average Maximum Chart for Joint Monitoring of Risk-Adjusted Continuous Outcomes</em> <span class="status">(Submitted to Quality and Reliability Engineering International)</span></li>
         <li><strong>Sinha A</strong>, Sinha K, Chatterjee K. <em>Comparative Sequential Monitoring of Mixed and Serially Correlated Multivariate Processes After a Common Transformation Framework</em> <span class="status">(In preparation)</span></li>
-        <li><strong>Sinha A</strong>, Chen J. <em>On the Detection of Multiple Change Points in a Sequence of Bivariate Normal Random Vectors
-with Application to COVID-19 Data</em>. <span class="status">(Research article, under review)</span></li>
-        <li><strong>Sinha A</strong>, Chen J. <em>On the Detection of Multiple Change Points in a Sequence of Bivariate Negative Binomial Random Vectors
-with Application to COVID-19 Data</em>. <span class="status">(Research article, under review)</span></li>
       </ul>
 
       <h3>Selected Presentations</h3>
       <ul class="biblio" role="list">
+        <li><strong>Arnoneel Sinha</strong>. <em>What Happens After the Sequencer Stops: Bioinformatics for Multi-Omics Research.</em> CBGM Bioinformatics Core Lunch-n-Learn Series, Augusta University, Augusta, GA, November 2026. (Seminar)</li>
         <li><strong>Arnoneel Sinha</strong>, Richard A. McIndoe. <em>cellivista: An Interactive Seurat-Based R Shiny App for Single-Cell RNA-seq Analysis.</em> Graduate Research Day, Augusta University, GA, March 2026. (Poster presentation)</li>
         <li><strong>Arnoneel Sinha</strong>. <em>Biostats for Flow Cytometry Users: Designing With Statistical Sense.</em> Southeast Flow Cytometry Interest Group, Atlanta, March 2026.</li>
         <li><strong>Arnoneel Sinha</strong>. <em>Opportunities for Statisticians &amp; Biostatisticians: From India to a Global Career.</em> One Day Talk (Online Mode), Trivenidevi Bhalotia College, India, November 2025. (Virtual talk)</li>
@@ -199,7 +210,7 @@ Jekyll Island, GA, 2022. (Poster presentation)</li>
         <div class="item__body">
           <h3>Post-Doctoral Fellow — Dr. Richard McIndoe lab, Center for Biotechnology &amp; Genomic Medicine, Augusta University</h3>
           <ul class="bullets">
-            <li>Analyzed 15+ single-cell and bulk RNA-seq datasets across tumor, pancreatic, and other tissue studies, building reusable R pipelines for differential expression, cell-type annotation, and pathway enrichment (Seurat, DESeq2, Loupe Browser).</li>
+            <li>Analyzed 20+ single-cell and bulk RNA-seq datasets across tumor, pancreatic, and other tissue studies, building reusable R pipelines for differential expression, cell-type annotation, and pathway enrichment (Seurat, DESeq2, Loupe Browser).</li>
             <li>Provided statistical and bioinformatics support to interdisciplinary teams (R, Python); co-authored peer-reviewed manuscripts and contributed analysis plans to NIH and NSF grant proposals.</li>
             <li>Mentored graduate students on computational genomics projects, from study design through analysis and interpretation.</li>
           </ul>
@@ -300,6 +311,8 @@ Jekyll Island, GA, 2022. (Poster presentation)</li>
       <h2>Current Projects</h2>
       <ul class="bullets">
         <li><strong>cellivista</strong> — User-friendly single-cell RNA-seq analysis tool in R/Shiny.</li>
+        <li><strong>cellivista Nexus</strong> — A local-first, human-audited agentic system for multi-omics analysis.</li>
+        <li><a href="playground.html"><strong>Stats Playground</strong></a> <span class="label-tag">Interactive</span> — An interactive set of statistics demos.</li>
         <li>LLM-based vs existing automated cell type annotation comparison (scRNA-seq).</li>
       </ul>
     </section>
@@ -321,86 +334,42 @@ Jekyll Island, GA, 2022. (Poster presentation)</li>
         <li>Member of the Augusta University Post-Doctoral Association, Augusta University (Fall 2024 - Spring 2026)</li>
         <li>Member of the Student Advisory Council, Enrollment &amp; Student Affairs, Augusta University (Fall 2024 - Present)</li>
         <li>Member of the Graduate Student Council (GSC), Augusta University (Fall 2021 - Summer 2023)</li>
-        <li>GSC representative on the The Graduate School - Faculty Council, Augusta University (Fall 2022 - Summer 2023)</li>
+        <li>GSC representative on The Graduate School - Faculty Council, Augusta University (Fall 2022 - Summer 2023)</li>
       </ul>
     </section>
 
     <section id="contact" class="section">
       <h2>Contact</h2>
       <div class="contact">
-        <a class="btn btn--primary" href="mailto:asinha639@gmail.com">asinha639@gmail.com</a>
+        <div>
+          <a class="btn btn--primary" href="mailto:arsinha@augusta.edu">arsinha@augusta.edu</a><br>
+          <a class="btn btn--primary" href="mailto:asinha639@gmail.com">asinha639@gmail.com</a>
+        </div>
         <a class="btn btn--ghost" href="https://www.linkedin.com/in/arnoneelsinha" target="_blank" rel="noreferrer">LinkedIn</a>
         <a class="btn btn--ghost" href="assets/files/CV_ArnoneelSinha.pdf" target="_blank" rel="noreferrer">CV PDF</a>
       </div>
     </section>
 
     <footer class="footer">
-      <div>© <span id="year"></span> Arnoneel Sinha</div>
+      <div>© <span id="year"></span> Arnoneel Sinha · <a href="#top">Back to top</a></div>
     </footer>
   </main>
 
-  <!-- Back to top -->
-  <button id="toTopBtn" aria-label="Back to top">↑</button>
-
-    <!-- Floating Story Widget (Left) -->
-  <a class="story-float" id="storyWidget" href="story.html" aria-label="Read my background story">
-    <div class="story-float__icon" aria-hidden="true">✦</div>
-    <div class="story-float__text">
-      <div class="story-float__title">My Story</div>
-      <div class="story-float__sub">From Red Soil to Southern Pines</div>
-    </div>
+  <!-- Back to top: small round button, shown only after scrolling about one screen.
+       CSS shows it only where it fits in the empty margin beside the text, so it never covers text;
+       on narrower screens the footer "Back to top" link does the job. -->
+  <a class="to-top" id="toTop" href="#top" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+      <path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
   </a>
-
-  <!-- Floating Weather Widget -->
-  <aside class="wx-float" id="weatherWidget" aria-live="polite" tabindex="0">
-    <div class="wx-float__left">
-      <div class="wx-float__status" id="wxStatus">Loading…</div>
-      <div class="wx-float__icon" id="wxIcon">⛅</div>
-    </div>
-
-    <div class="wx-float__divider" aria-hidden="true"></div>
-
-    <div class="wx-float__right">
-      <div class="wx-float__place">Augusta, GA</div>
-      <div class="wx-float__day" id="wxDay">—</div>
-
-      <div class="wx-float__temp">
-        <span class="wx-float__tempMain" id="wxTemp">—</span>
-        <span class="wx-float__tempSub" id="wxTempF">—</span>
-      </div>
-    </div>
-  </aside>
-
-  <!-- Floating Did You Know Widget (Bottom Left) -->
-<a class="dyk-float" href="didyouknow.html" aria-label="Did you know? Daily note">
-  <div class="dyk-float__icon" aria-hidden="true">?</div>
-  <div class="dyk-float__text">
-    <div class="dyk-float__title">Did you know?</div>
-    <!-- <div class="dyk-float__sub" id="dykLine">Daily note</div> -->
-  </div>
-</a>
-
-<a class="play-float" href="playground.html">
-  <div>Stats Playground</div>
-</a>
 
 <script>
     // Footer year
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // Back to top button
-    const toTopBtn = document.getElementById("toTopBtn");
-    window.addEventListener("scroll", () => {
-      if (window.scrollY > 300) toTopBtn.classList.add("show");
-      else toTopBtn.classList.remove("show");
-    }, { passive: true });
-
-    toTopBtn.addEventListener("click", () => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-
     // Scroll reveal
-    const revealEls = document.querySelectorAll(".section, .item");
+    const revealEls = document.querySelectorAll(".section, .item, .story-feature");
     revealEls.forEach(el => el.classList.add("reveal"));
 
     const io = new IntersectionObserver((entries) => {
@@ -414,92 +383,57 @@ Jekyll Island, GA, 2022. (Poster presentation)</li>
 
     revealEls.forEach(el => io.observe(el));
 
-    // Weather widget (Augusta, GA) – Open-Meteo, no key
-    const wxWidget = document.getElementById("weatherWidget");
-    const wxStatus = document.getElementById("wxStatus");
-    const wxIcon = document.getElementById("wxIcon");
-    const wxDay = document.getElementById("wxDay");
-    const wxTemp = document.getElementById("wxTemp");
-    const wxTempF = document.getElementById("wxTempF");
+    // Back-to-top button: fades in after scrolling about one screen
+    const toTop = document.getElementById("toTop");
+    const updateToTop = () => toTop.classList.toggle("is-shown", window.scrollY > window.innerHeight * 0.9);
+    window.addEventListener("scroll", updateToTop, { passive: true });
+    window.addEventListener("resize", updateToTop);
+    updateToTop();
+
+    // Weather in the hero Location row (Augusta, GA) – Open-Meteo, no key.
+    // Fails quietly: if the forecast can't be loaded, only "Augusta, GA" shows
+    // (or the last good reading stays).
+    const wxText = document.getElementById("wxText");
 
     const AUGUSTA_GA = { lat: 33.4735, lon: -82.0105 };
 
-    const dayName = (d = new Date()) =>
-      d.toLocaleDateString(undefined, { weekday: "long" });
-
-    const codeToTextIcon = (code) => {
-      if (code === 0) return { text: "Clear", icon: "☀️" };
-      if (code === 1 || code === 2) return { text: "Partly Cloudy", icon: "⛅" };
-      if (code === 3) return { text: "Cloudy", icon: "☁️" };
-      if (code === 45 || code === 48) return { text: "Fog", icon: "🌫️" };
-      if ([51,53,55,56,57].includes(code)) return { text: "Drizzle", icon: "🌦️" };
-      if ([61,63,65,66,67].includes(code)) return { text: "Rain", icon: "🌧️" };
-      if ([71,73,75,77].includes(code)) return { text: "Snow", icon: "❄️" };
-      if ([80,81,82].includes(code)) return { text: "Showers", icon: "🌦️" };
-      if ([95,96,99].includes(code)) return { text: "Thunder", icon: "⛈️" };
-      return { text: "Weather", icon: "🌡️" };
+    const codeToText = (code) => {
+      if (code === 0) return "clear";
+      if (code === 1 || code === 2) return "partly cloudy";
+      if (code === 3) return "cloudy";
+      if (code === 45 || code === 48) return "fog";
+      if ([51,53,55,56,57].includes(code)) return "drizzle";
+      if ([61,63,65,66,67].includes(code)) return "rain";
+      if ([71,73,75,77].includes(code)) return "snow";
+      if ([80,81,82].includes(code)) return "showers";
+      if ([95,96,99].includes(code)) return "thunderstorms";
+      return "";
     };
 
     async function loadWeatherAugusta() {
       try {
-        wxStatus.textContent = "Updating…";
-        wxDay.textContent = dayName();
-
-        const t = Date.now();
         const wxUrl =
           `https://api.open-meteo.com/v1/forecast?latitude=${AUGUSTA_GA.lat}&longitude=${AUGUSTA_GA.lon}` +
-          `&current=temperature_2m,weather_code&temperature_unit=celsius&timezone=America%2FNew_York&t=${t}`;
+          `&current=temperature_2m,weather_code&temperature_unit=celsius&timezone=America%2FNew_York`;
 
         const res = await fetch(wxUrl, { cache: "no-store" });
+        if (!res.ok) throw new Error(`Weather request failed (${res.status})`);
         const data = await res.json();
 
         const tempC = data?.current?.temperature_2m;
         const code = data?.current?.weather_code;
-        if (tempC === undefined || code === undefined) throw new Error("Weather data missing");
+        if (typeof tempC !== "number") throw new Error("Weather data missing");
 
-        const tempF = (tempC * 9) / 5 + 32;
-        const { text, icon } = codeToTextIcon(code);
-
-        wxStatus.textContent = text;
-        wxIcon.textContent = icon;
-        wxTemp.textContent = `${Math.round(tempC)}°C`;
-        wxTempF.textContent = `${Math.round(tempF * 10) / 10} F`;
+        const sky = codeToText(code);
+        wxText.textContent = ` · ${Math.round(tempC)}°C${sky ? ", " + sky : ""}`;
+        wxText.hidden = false;
       } catch (e) {
-        wxStatus.textContent = "Weather unavailable";
-        wxIcon.textContent = "⚠️";
-        wxDay.textContent = dayName();
-        wxTemp.textContent = "—";
-        wxTempF.textContent = "—";
-        console.warn(e);
+        console.warn("Weather unavailable:", e);
       }
     }
 
     loadWeatherAugusta();
     setInterval(loadWeatherAugusta, 10 * 60 * 1000);
-
-    // Bubble -> pill on scroll; always bubble at very top
-    function updateWeatherDock() {
-      const collapseAfter = 120;
-      if (window.scrollY <= 10) wxWidget.classList.remove("wx--collapsed");
-      else if (window.scrollY > collapseAfter) wxWidget.classList.add("wx--collapsed");
-    }
-
-    window.addEventListener("scroll", updateWeatherDock, { passive: true });
-    updateWeatherDock();
-
-        // Story widget collapse on scroll
-    const storyWidget = document.getElementById("storyWidget");
-
-    function updateStoryDock() {
-      const collapseAfter = 120;
-      if (!storyWidget) return;
-
-      if (window.scrollY <= 10) storyWidget.classList.remove("story--collapsed");
-      else if (window.scrollY > collapseAfter) storyWidget.classList.add("story--collapsed");
-    }
-
-    window.addEventListener("scroll", updateStoryDock, { passive: true });
-    updateStoryDock();
   </script>
 </body>
 </html>

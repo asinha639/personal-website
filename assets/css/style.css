@@ -2,9 +2,9 @@
    Arnoneel Sinha — personal site
    Scholarly "paper and ink" theme
 
-   Step 1 (foundation): colors, fonts, page background.
-   Layout is unchanged from the old design; later steps
-   restyle the header, sections and floating widgets.
+   Paper-and-ink colors and fonts, a quiet masthead,
+   hairline-ruled sections, a frosted My Story feature card,
+   and a back-to-top button that stays in the side margin.
    ===================================================== */
 
 /* ---------- Design tokens (change colors/fonts here) ---------- */
@@ -413,295 +413,211 @@ main > .grid.two > .section{ margin-top: 0; }
 }
 section{ scroll-margin-top: 90px; }
 
-/* ---------- Back-to-top button ---------- */
-#toTopBtn{
-  position: fixed;
-  bottom: 24px;
-  left: 24px;
-  z-index: 50;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 1px solid var(--rule-strong);
-  background: var(--paper);
-  color: var(--ink);
-  font-size: 18px;
-  cursor: pointer;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(10px);
-  transition: opacity 200ms ease, transform 200ms ease, visibility 200ms ease, border-color 200ms ease;
-}
-#toTopBtn:hover{ border-color: var(--accent); color: var(--accent); }
-#toTopBtn.show{
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
+/* ---------- My Story feature card (after About) ----------
+   A wide, softly frosted card. The faint warm glow behind it (::before)
+   is what the frosted glass blurs. Browsers without backdrop-filter get a
+   solid warm panel instead, so the text contrast is the same either way.
+   The whole card is clickable: the "Read my story" link stretches over it. */
+.story-feature{
+  position: relative;
+  isolation: isolate;               /* keeps the glow behind the card only */
+  margin-top: var(--space);
 }
 
-/* =====================================================
-   Floating widgets — recolored flat for now.
-   Step 5 replaces these with a quiet "Extras" line.
-   ===================================================== */
-
-/* Weather */
-.wx-float{
-  position: fixed;
-  right: 24px;
-  top: 120px;
-  z-index: 40;
-  width: 320px;
-  max-width: calc(100vw - 48px);
-  padding: 16px 18px;
-  display: grid;
-  grid-template-columns: 1fr auto 1.2fr;
-  align-items: center;
-  gap: 14px;
-  border-radius: var(--radius);
-  border: 1px solid var(--rule-strong);
-  background: var(--paper);
-  overflow: hidden;
-  transition: width 260ms var(--ease), padding 260ms var(--ease), border-radius 260ms var(--ease);
+.story-feature::before{
+  content: "";
+  position: absolute;
+  inset: 0;                         /* stays inside the column: no sideways scroll */
+  z-index: -1;
+  border-radius: 12px;
+  background:
+    radial-gradient(55% 90% at 8% 15%, rgba(140,47,57,0.16), transparent 70%),
+    radial-gradient(50% 80% at 95% 90%, rgba(196,138,64,0.20), transparent 70%);
+  pointer-events: none;
 }
 
-.wx-float__left{ display:grid; gap:6px; }
-
-.wx-float__status{
-  color: var(--ink-soft);
-  font-size: 0.9rem;
-  max-height: 40px;
-  transition: opacity 220ms var(--ease), max-height 220ms var(--ease);
+.story-card{
+  position: relative;
+  padding: clamp(24px, 5vw, 44px) clamp(20px, 5vw, 48px);
+  border-radius: 12px;
+  border: 1px solid rgba(201,191,171,0.75);
+  background: #F4EEE3;              /* solid fallback (no blur support) */
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.65),
+    0 1px 2px rgba(31,27,22,0.04),
+    0 10px 28px -16px rgba(31,27,22,0.18);
+  transition: transform 220ms var(--ease), box-shadow 220ms var(--ease), border-color 220ms var(--ease);
 }
 
-.wx-float__icon{
-  font-size: 40px;
-  line-height: 1;
-  transition: font-size 240ms var(--ease);
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))){
+  .story-card{
+    background: linear-gradient(135deg, rgba(255,252,246,0.66), rgba(244,236,222,0.52));
+    -webkit-backdrop-filter: blur(14px) saturate(1.15);
+    backdrop-filter: blur(14px) saturate(1.15);
+  }
 }
 
-.wx-float__divider{
-  width: 1px;
-  height: 70px;
-  background: var(--rule);
-  transition: opacity 220ms var(--ease), width 220ms var(--ease);
-}
-
-.wx-float__right{ display:grid; gap:4px; }
-
-.wx-float__place{
-  font-family: var(--font-display);
-  font-weight: 600;
-}
-
-.wx-float__day{
-  color: var(--ink-soft);
-  font-size: 0.9rem;
-  max-height: 40px;
-  transition: opacity 220ms var(--ease), max-height 220ms var(--ease);
-}
-
-.wx-float__temp{
-  display:flex;
-  align-items: baseline;
-  gap: 10px;
-}
-
-.wx-float__tempMain{
-  font-family: var(--font-display);
-  font-size: 1.8rem;
-  font-weight: 600;
-  transition: font-size 240ms var(--ease);
-}
-
-.wx-float__tempSub{
-  color: var(--ink-soft);
-  font-size: 0.95rem;
-  max-width: 120px;
-  overflow: hidden;
-  white-space: nowrap;
-  transition: opacity 220ms var(--ease), max-width 220ms var(--ease);
-}
-
-/* Collapsed state (after scrolling) */
-.wx-float.wx--collapsed{
-  width: 210px;
-  padding: 10px 12px;
-  border-radius: 999px;
-}
-.wx-float.wx--collapsed .wx-float__divider{ opacity: 0; width: 0; }
-.wx-float.wx--collapsed .wx-float__status,
-.wx-float.wx--collapsed .wx-float__day{ opacity: 0; max-height: 0; }
-.wx-float.wx--collapsed .wx-float__tempSub{ opacity: 0; max-width: 0; }
-.wx-float.wx--collapsed .wx-float__icon{ font-size: 28px; }
-.wx-float.wx--collapsed .wx-float__tempMain{ font-size: 1.15rem; }
-.wx-float.wx--collapsed .wx-float__place{
-  font-size: 0.9rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.wx-float.wx--collapsed:hover,
-.wx-float.wx--collapsed:focus{
-  width: 320px;
-  padding: 16px 18px;
-  border-radius: var(--radius);
-}
-
-/* Story widget */
-.story-float{
-  position: fixed;
-  left: 24px;
-  top: 120px;
-  z-index: 45;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: center;
-  gap: 12px;
-  width: 350px;
-  max-width: calc(100vw - 48px);
-  padding: 14px 16px;
-  border-radius: var(--radius);
-  border: 1px solid var(--rule-strong);
-  background: var(--paper);
-  color: var(--ink);
-  text-decoration: none;
-  overflow: hidden;
-  transition: width 260ms var(--ease), padding 260ms var(--ease), border-radius 260ms var(--ease);
-}
-.story-float:hover{ border-color: var(--accent); color: var(--ink); }
-
-.story-float__icon{
-  width: 40px;
-  height: 40px;
-  border-radius: 999px;
-  display: grid;
-  place-items: center;
-  font-size: 18px;
-  color: var(--accent);
-  border: 1px solid var(--rule-strong);
-}
-
-.story-float__text{ display: grid; gap: 2px; min-width: 0; }
-
-.story-float__title{
-  font-family: var(--font-display);
-  font-weight: 600;
-}
-
-.story-float__sub{
-  color: var(--ink-soft);
-  font-size: 0.9rem;
-  line-height: 1.25;
-}
-
-.story-float.story--collapsed{
-  width: 64px;
-  padding: 10px;
-  border-radius: 999px;
-  grid-template-columns: 1fr;
-  justify-items: center;
-}
-.story-float.story--collapsed .story-float__text{
-  opacity: 0;
-  max-height: 0;
-  overflow: hidden;
-}
-.story-float.story--collapsed:hover{
-  width: 300px;
-  padding: 14px 16px;
-  border-radius: var(--radius);
-  grid-template-columns: auto 1fr;
-  justify-items: stretch;
-}
-.story-float.story--collapsed:hover .story-float__text{
-  opacity: 1;
-  max-height: 120px;
-}
-
-/* Did-you-know widget */
-.dyk-float{
-  position: fixed;
-  left: 24px;
-  bottom: 96px;
-  z-index: 45;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: center;
-  gap: 12px;
-  width: 280px;
-  max-width: calc(100vw - 48px);
-  padding: 12px 14px;
-  border-radius: var(--radius);
-  border: 1px solid var(--rule-strong);
-  background: var(--paper);
-  color: var(--ink);
-  text-decoration: none;
-}
-.dyk-float:hover{ border-color: var(--accent); color: var(--ink); }
-
-.dyk-float__icon{
-  width: 40px;
-  height: 40px;
-  border-radius: 999px;
-  display: grid;
-  place-items: center;
-  font-size: 18px;
-  color: var(--accent);
-  border: 1px solid var(--rule-strong);
-}
-
-.dyk-float__title{
-  font-family: var(--font-display);
-  font-weight: 600;
-}
-
-/* Playground widget */
-.play-float{
-  position: fixed;
-  left: 24px;
-  bottom: 220px;
-  z-index: 46;
-  display:flex;
-  align-items:center;
-  padding: 10px 18px;
-  border-radius: var(--radius);
-  background: var(--accent);
-  color: #fff;
+.story-card__kicker{
+  margin: 0;
   font-family: var(--font-label);
-  font-size: 0.85rem;
+  font-size: 0.8125rem;
   font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.story-card__title{
+  margin: 8px 0 12px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.6rem, 1.15rem + 2.2vw, 2.5rem);
+  line-height: 1.15;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.story-card__teaser{
+  margin: 0 0 14px;
+  max-width: 52ch;
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+}
+
+.story-card__link{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;                 /* comfortable tap target */
+  font-family: var(--font-label);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--accent);
   text-decoration: none;
 }
-.play-float:hover{ background: var(--accent-dark); color:#fff; }
+
+/* Stretch the link over the whole card so the card is one big target */
+.story-card__link::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.story-card__arrow{
+  display: inline-block;
+  transition: transform 220ms var(--ease);
+}
+
+@media (hover: hover){
+  .story-card:hover{
+    transform: translateY(-3px);
+    border-color: var(--rule-strong);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.65),
+      0 2px 4px rgba(31,27,22,0.05),
+      0 18px 36px -18px rgba(31,27,22,0.26);
+  }
+  .story-card:hover .story-card__link{ color: var(--accent-dark); }
+  .story-card:hover .story-card__arrow{ transform: translateX(4px); }
+}
+
+/* Keyboard focus: ring around the whole card instead of just the link text */
+@supports selector(:has(*)){
+  .story-card:has(.story-card__link:focus-visible){
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+  .story-card__link:focus-visible{ outline: none; }
+}
+
+/* ---------- Small "Interactive" label (Projects) ---------- */
+.label-tag{
+  display: inline-block;
+  padding: 0 8px;
+  border: 1px solid rgba(140,47,57,0.22);
+  border-radius: 999px;
+  background: var(--accent-wash);
+  color: var(--accent);
+  font-family: var(--font-label);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  line-height: 1.6;
+  text-transform: uppercase;
+  vertical-align: 0.12em;
+  white-space: nowrap;
+}
+
+/* ---------- Weather in the hero Location row ---------- */
+.meta__wx{
+  color: var(--ink-soft);
+  font-family: var(--font-label);
+  font-size: 0.8125rem;
+  letter-spacing: 0.01em;
+}
+
+/* ---------- Back-to-top button ----------
+   Small round oxblood button, bottom-right. It is shown only on screens
+   wide enough that it sits in the empty margin beside the 760px text
+   column (from 920px up), so it never covers text. Narrower screens use
+   the footer "Back to top" link instead. */
+.to-top{ display: none; }
+
+@media (min-width: 920px){
+  .to-top{
+    position: fixed;
+    right: max(20px, env(safe-area-inset-right));
+    bottom: max(20px, env(safe-area-inset-bottom));
+    z-index: 20;
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 6px 16px -6px rgba(110,35,44,0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: opacity 250ms var(--ease), transform 250ms var(--ease),
+                visibility 0s linear 250ms, background-color 180ms ease;
+  }
+  .to-top.is-shown{
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition-delay: 0s;
+  }
+  .to-top:hover{ background: var(--accent-dark); color: #fff; }
+  .to-top:focus-visible{
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+}
+
+/* Footer "Back to top" link: in the page flow, easy to tap */
+.footer a{
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
 
 /* ---------- Responsive ---------- */
 @media (max-width: 860px){
   .grid.two{ grid-template-columns: 1fr; }
-
-  .wx-float{
-    top: auto;
-    bottom: 90px;
-    right: 16px;
-    left: 16px;
-    width: auto;
-    max-width: none;
-  }
-
-  .story-float{
-    top: auto;
-    bottom: 156px;
-    left: 16px;
-    right: 16px;
-    width: auto;
-    max-width: none;
-  }
 }
 
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce){
   html{ scroll-behavior: auto; }
-  .btn, .topnav a, .section, .item, .reveal, #toTopBtn, .wx-float, .story-float{
+  .btn, .topnav a, .section, .item, .reveal,
+  .story-card, .story-card__arrow, .to-top{
     transition: none !important;
     animation: none !important;
   }
+  .story-card:hover, .story-card:hover .story-card__arrow{ transform: none; }
 }
